@@ -2,6 +2,7 @@ package ru.netology.kotlin.dz3_1standroidapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
@@ -24,10 +25,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         var list: List<Post>
         launch {
+            progressBar.visibility = ProgressBar.VISIBLE
             list = withContext(Dispatchers.IO) {
                 Api.client.get<List<Post>>(Api.url)
             }
             Toast.makeText(this@MainActivity, "Length: ${list.size}", Toast.LENGTH_LONG).show()
+            progressBar.visibility = ProgressBar.INVISIBLE
 
             with(container) {
                 layoutManager = LinearLayoutManager(this@MainActivity)
